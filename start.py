@@ -13,25 +13,26 @@ items = []
 def name_sequence(transitioned_from_character):
 	name = input("I am: ")
 	if transitioned_from_character:
-		return f'Welcome {name}, a {character.name}'
+		return f'Welcome \'{name}\', a {character.get("name")}'
 	return f'Welcome {name}'
 
 
 def character_sequence(transition_to_name):
 	print('Characters: ')
+	global character
 	chosen_character = False
+	for char in characters:
+		print(f'{char.get("pk")}. {char.get("name")}')
 	while(not chosen_character):
-		for char in characters:
-			print(f'{char.get("pk")}. {char.get("name")}')
-		character = input("Who are you? (choose number): ")
-		character = next((item for item in characters if item["pk"] == character), None)
-		if character:
+		try:
+			character = int(input("Who are you? (choose number): "))
+			character = next(char for char in characters if char["pk"] == character)
 			chosen_character = True
-		else:
+		except Exception:
 			print('(Thats not even in the choices!)')
 	if transition_to_name:
 		return 'What I meant was your name. Who are you?\n'
-	return f'Welcome {character.name}'
+	return f'Welcome {character.get("name")}'
 
 
 # Main Sequence Here
